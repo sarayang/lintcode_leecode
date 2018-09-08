@@ -9,9 +9,9 @@ public class Pow_428 {
      * @param n: the power number
      * @return: the result
      */
-    public double myPow(double x, int n) {
+    public void myPow(double x, int n) {
         // write your code here
-
+        return ;
 
 
     }
