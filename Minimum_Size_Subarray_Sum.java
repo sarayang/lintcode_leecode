@@ -5,20 +5,22 @@ package lintcode.lintcode_leecode;
  */
 public class Minimum_Size_Subarray_Sum {
     public int minimumSize(int[] nums, int s) {
-        int sum = 0;
+        if (nums.length == 0 && nums == null) {
+            return -1;
+        }
+
         int ans = Integer.MAX_VALUE;
+        int sum = 0;
 
-        for (int left = 0, right = 0; right < nums.length; right++) {
-            sum += nums[right];
-
+        for (int i = 0, j = 0; j < nums.length; j++) {
+            sum += nums[j];
             while (sum >= s) {
-                ans = Math.min(ans, right - left + 1);
-                sum -= nums[left];
-                left++;
+                ans = Math.min(ans, j - i + 1);
+                sum -= nums[i];
+                i++;
             }
         }
 
         return ans == Integer.MAX_VALUE ? -1 : ans;
-
     }
 }
