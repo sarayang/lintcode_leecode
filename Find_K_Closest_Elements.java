@@ -28,12 +28,12 @@ public class Find_K_Closest_Elements {
 
         int left = binarysearch(A, 0, A.length - 1, target);
         int right = left + 1;
+
         for (int i = 0; i < k; i++) {
             if (isLeftClosest(A, left, right, target)) {
                 result[i] = A[left];
                 left--;
             } else {
-
                 result[i] = A[right];
                 right++;
             }
@@ -54,9 +54,8 @@ public class Find_K_Closest_Elements {
             return true;
         }
 
-
         if (Math.abs(arr[left] - target) != Math.abs(arr[right] - target)) {
-            return (target - arr[left]) < (arr[right] - target);
+            return Math.abs(target - arr[left]) < Math.abs(target - arr[right]);
         }
 
         return true;
@@ -87,7 +86,7 @@ public class Find_K_Closest_Elements {
         return -1;
     }
 
-
+    // this version also works
     private int binarysearch_withEqualSigns(int[] a, int from, int to, int target) {
         if (from > to) {
             return -1;

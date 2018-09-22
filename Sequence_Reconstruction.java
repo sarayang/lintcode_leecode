@@ -59,6 +59,68 @@ public class Sequence_Reconstruction {
         return cnt == org.length;
     }
 
+    // copied directly from lintcode
+    public boolean sequenceReconstruction_lintcode(int[] org, int[][] seqs) {
+        // write your code here
+
+        HashMap<Integer, HashSet<Integer>> map = new HashMap<>();
+        HashMap<Integer, Integer> indegree = new HashMap<>();
+
+        for (int i = 0; i < org.length; i++) {
+            map.put(org[i], new HashSet<Integer>());
+            indegree.put(org[i], 0);
+        }
+
+        int counter = 0;
+        int n = org.length;
+        for (int[] seq : seqs) {
+            counter += seq.length;
+            for (int k = 0; k < seq.length; k++) {
+                if (seq[k] <= 0 || seq[k] > 10_000) {
+                    return false;
+                }
+            }
+            for (int j = 1; j < seq.length; j++) {
+
+                if (map.get(seq[j - 1]) != null && map.get(seq[j - 1]).add(seq[j]))  {
+
+                    if (indegree.get(seq[j]) != null) {
+                        indegree.put(seq[j], indegree.get(seq[j]) + 1);
+                    } else {
+                        indegree.put(seq[j], 0);
+                    }
+
+                }
+            }
+        }
+
+        if (counter < n) return false;
+
+        Deque<Integer> queue = new LinkedList<>();
+        for (Integer key : indegree.keySet()) {
+            if (indegree.get(key) == 0) {
+                queue.offer(key);
+            }
+        }
+
+        int steps = 0;
+        while (queue.size() == 1) {
+            int cur = queue.poll();
+            for (Integer after : map.get(cur)) {
+                indegree.put(after, indegree.get(after) - 1);
+                if (indegree.get(after) == 0) {
+                    queue.offer(after);
+                }
+            }
+            if (cur != org[steps]) {
+                return false;
+            }
+            steps++;
+        }
+        return steps == org.length;
+    }
+
+
     public static void main(String[] args) {
         Sequence_Reconstruction s = new Sequence_Reconstruction();
 

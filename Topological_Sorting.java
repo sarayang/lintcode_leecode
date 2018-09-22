@@ -59,4 +59,43 @@ public class Topological_Sorting {
 
         return orderedGraph;
     }
+
+    // new version  wrote on 9/22/2018
+    public ArrayList<DirectedGraphNode> topSort_lintcode(ArrayList<DirectedGraphNode> graph) {
+        ArrayList<DirectedGraphNode> result = new ArrayList<>();
+        if (graph == null || graph.size() < 1) {
+            return result;
+        }
+
+        HashMap<DirectedGraphNode, Integer> indegree = new HashMap<>();
+        for (DirectedGraphNode node : graph) {
+            for (DirectedGraphNode neighbor : node.neighbors) {
+                if (indegree.containsKey(neighbor)) {
+                    indegree.put(neighbor, indegree.get(neighbor) + 1);
+                } else {
+                    indegree.put(neighbor, 1);
+                }
+            }
+        }
+
+        Deque<DirectedGraphNode> queue = new LinkedList<>();
+        for (DirectedGraphNode node : graph) {
+            if (!indegree.containsKey(node)) {
+                queue.offer(node);
+            }
+        }
+
+        while (!queue.isEmpty()) {
+            DirectedGraphNode n = queue.poll();
+            result.add(n);
+            for (DirectedGraphNode neig : n.neighbors) {
+                indegree.put(neig, indegree.get(neig) - 1);
+                if (indegree.get(neig) == 0) {
+                    queue.offer(neig);
+                }
+            }
+        }
+
+        return result;
+    }
 }
