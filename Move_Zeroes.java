@@ -4,6 +4,30 @@ package lintcode.lintcode_leecode;
  * Created by YANGSONG on 2018-09-21.
  */
 public class Move_Zeroes {
+    // latest version via two pointers.
+    public void moveZeroes_new(int[] nums) {
+        if (nums.length == 1 || nums == null) {
+            return;
+        }
+        int i = 0;
+        int j = 0;
+        while (j < nums.length) {
+            if (nums[j] != 0) {
+                swap_new(nums, j, i);
+                i++;
+            }
+            j++;
+        }
+    }
+
+    private void swap_new(int[] nums, int from, int to) {
+        int tmp = nums[from];
+        nums[from] = nums[to];
+        nums[to] = tmp;
+    }
+
+    // --------------------------
+
     public void moveZeroes(int[] nums) {
         // write your code here
 
@@ -39,4 +63,6 @@ public class Move_Zeroes {
         }
         return zero;
     }
+
+
 }
