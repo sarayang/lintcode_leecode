@@ -38,19 +38,19 @@ public class MS_OTS_practice {
         }
 
 
-        for (int i = 0; i < 12; i++) {
-            for (int j = 0; j <60; j++) {
-                if (Integer.bitCount(i) + Integer.bitCount(j) == 8) {
-                    System.out.println(String.format("%d:%02d", i, j));
-                }
-            }
-        }
-
-        int i = -12000000;
-        String k = Integer.toString(i);
-        for (char c : k.toCharArray()) {
-            System.out.println(c);
-        }
+//        for (int i = 0; i < 12; i++) {
+//            for (int j = 0; j <60; j++) {
+//                if (Integer.bitCount(i) + Integer.bitCount(j) == 8) {
+//                    System.out.println(String.format("%d:%02d", i, j));
+//                }
+//            }
+//        }
+//
+//        int i = -12000000;
+//        String k = Integer.toString(i);
+//        for (char c : k.toCharArray()) {
+//            System.out.println(c);
+//        }
 
 
         HashMap<Integer, Integer> map = new HashMap<>();
@@ -93,6 +93,8 @@ public class MS_OTS_practice {
 //
 //        }
 //        System.out.println(result);
+
+        String[] str = {"t","h","e"," ","s","k","y"," ","i","s"," ","b","l","u","e"};
 
 
 

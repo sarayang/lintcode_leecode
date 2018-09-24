@@ -9,80 +9,70 @@ import java.util.List;
  * Created by YANGSONG on 2018-09-23.
  */
 public class Word_Search_II {
-    public static int[] xCoors = {-1, 1, 0, 0};
-    public static int[] yCoors = {0, 0, -1, 1};
+    public static int[] xCoor = {-1, 1, 0, 0};
+    public static int[] yCoor = {0, 0, -1, 1};
 
-    public List<String> wordSearchII(char[][] board, List<String> words) {
-        int rows = board.length;
-        int cols = board[0].length;
-
-        boolean[][] visited = new boolean[rows][cols];
-        HashMap<String, Boolean> prefixIsWord = getPrefixIsWord(words);
-        // define it as hashset in order to remove duplicated case.
+    public List<String> findWords(char[][] board, String[] words) {
+        if (board.length == 0 || board[0].length == 0 || words.length == 0) {
+            return new ArrayList<>();
+        }
         HashSet<String> result = new HashSet<>();
+        boolean[][] visited = new boolean[board.length][board[0].length];
+        HashMap<String, Boolean> prefixIsWord = getPrefix(words);
 
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < board[i].length; j++) {
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[0].length; j++) {
                 visited[i][j] = true;
-                dfs(board, prefixIsWord, String.valueOf(board[i][j]), i, j, result, visited);
+                dfs(i, j, board, String.valueOf(board[i][j]), prefixIsWord, visited, result);
                 visited[i][j] = false;
             }
         }
-
         return new ArrayList<>(result);
     }
 
-    private void dfs(char[][] board,
-                     HashMap<String, Boolean> prefixIsWord,
-                     String s,
-                     int x,
+    private void dfs(int x,
                      int y,
-                     HashSet<String> result,
-                     boolean[][] visited) {
-
-        if (!prefixIsWord.containsKey(s)) {
+                     char[][] board,
+                     String word,
+                     HashMap<String, Boolean> prefixMap,
+                     boolean[][] visited,
+                     HashSet<String> result) {
+        if (!prefixMap.containsKey(word)) {
             return;
         }
 
-        if (prefixIsWord.get(s)) {
-            result.add(s);
+        if (prefixMap.get(word)) {
+            result.add(word);
         }
 
         for (int i = 0; i < 4; i++) {
-            int adjacentX = x + xCoors[i];
-            int adjacentY = y + yCoors[i];
+            int adjacentX = x + xCoor[i];
+            int adjacentY = y + yCoor[i];
 
             if (!coorOnBoard(adjacentX, adjacentY, board) || visited[adjacentX][adjacentY]) {
                 continue;
             }
-
             visited[adjacentX][adjacentY] = true;
-            dfs(board, prefixIsWord, s + board[adjacentX][adjacentY], adjacentX, adjacentY, result, visited);
+            dfs(adjacentX, adjacentY, board, word + board[adjacentX][adjacentY], prefixMap, visited, result);
             visited[adjacentX][adjacentY] = false;
         }
     }
 
     private boolean coorOnBoard(int x, int y, char[][] board) {
-
         return x >= 0 && x < board.length && y >= 0 && y < board[0].length;
     }
 
-    private HashMap<String, Boolean> getPrefixIsWord(List<String> words) {
-        HashMap<String, Boolean> map = new HashMap<>();
+    private HashMap<String, Boolean> getPrefix(String[] words) {
+        HashMap<String, Boolean> prefixMap = new HashMap<>();
         for (String word : words) {
             for (int i = 0; i < word.length(); i++) {
                 String prefix = word.substring(0, i + 1);
-                // this is the thing i need to pay attention. without this check
-                // map will update the value of an existing key which will error out;
-                if (!map.containsKey(prefix)) {
-                    map.put(prefix, false);
+                if (!prefixMap.containsKey(prefix)) {
+                    prefixMap.put(prefix, false);
                 }
             }
-            map.put(word, true);
+            prefixMap.put(word, true);
         }
-
-        System.out.println(map);
-
-        return map;
+        return prefixMap;
     }
 }
