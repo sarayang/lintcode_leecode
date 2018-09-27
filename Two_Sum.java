@@ -10,6 +10,9 @@ import java.util.HashMap;
 class Pair {
     Integer index;
     Integer value;
+    public int time;
+    public int startOrEnd;
+
     Pair(Integer i, Integer v) {
         this.index = i;
         this.value = v;
